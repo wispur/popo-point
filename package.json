@@ -6,7 +6,11 @@
   "scripts": {
     "start": "babel-node index.js",
     "mocha": "mocha --compilers js:babel-core/register --require babel-polyfill __test__",
-    "test": "babel-node node_modules/isparta/bin/isparta cover --report text --report lcov --include index.js node_modules/mocha/bin/_mocha -- --reporter dot __test__"
+    "test": "babel-node node_modules/isparta/bin/isparta cover --report text --report lcov --include index.js node_modules/mocha/bin/_mocha -- --reporter dot __test__",
+    "build": "babel index.js --out-file build/index.js"
+  },
+  "bin": {
+    "popoint": "./bin/popoint.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +32,7 @@
   },
   "homepage": "https://github.com/airpopo/popo-point#readme",
   "dependencies": {
+    "commander": "^2.9.0",
     "geolib": "^2.0.20",
     "lodash": "^4.11.2"
   },
