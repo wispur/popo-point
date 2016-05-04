@@ -140,3 +140,54 @@ describe('findPointByDistance', function() {
     expect(_.maxBy(results, 'distance').distance).to.be.below(90);
   });
 });
+
+describe('hasService', function() {
+  it('has service', function() {
+    expect(popopoint.hasService({
+      latitude: 25.043774, longitude: 121.504957
+    })).to.be.ok;
+  });
+
+  it('no service when point in restriction', function() {
+    expect(popopoint.hasService({
+      latitude: 25.043473, longitude: 121.507242
+    })).to.not.be.ok;
+  });
+
+  it('no service when point in outside', function() {
+    expect(popopoint.hasService({
+      latitude: 25.045864, longitude: 121.505472
+    })).to.not.be.ok;
+  });
+});
+
+describe('getServicePoint', function() {
+  it('get single point when point in free zone', function() {
+    const results = popopoint.getServicePoint({
+      latitude: 25.043774, longitude: 121.504957
+    });
+
+    expect(results.length).to.equal(1);
+    expect(results[0].latitude).to.equal(25.043774);
+    expect(results[0].longitude).to.equal(121.504957);
+  });
+
+  it('get multi-point when point in restriction', function() {
+    const results = popopoint.getServicePoint({
+      latitude: 25.044262, longitude: 121.506390
+    });
+
+    expect(results.length).to.be.above(1);
+    expect(results[0].latitude).to.not.equal(25.043774);
+    expect(results[0].longitude).to.not.equal(121.504957);
+    expect(results[0].distance).to.be.above(1);
+  });
+
+  it('no results when point in outside', function() {
+    const results = popopoint.getServicePoint({
+      latitude: 25.041725, longitude: 121.543703
+    });
+
+    expect(results.length).to.equal(0);
+  });
+});

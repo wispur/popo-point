@@ -38,14 +38,12 @@ class PoPoPoint {
     return _.take(results, index === -1 ? limit : index);
   }
 
-  // TODO
   hasService(latlng) {
-
+    return this.isPointInside(latlng) && this.isFreeZone(latlng);
   }
 
-  // TODO
   getServicePoint(latlng) {
-
+    return this.hasService(latlng) ? [latlng] : this.findPointByDistance(latlng, 500, 10);
   }
 }
 
